@@ -1,68 +1,73 @@
 <template>
-  <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div>
-    </ion-content>
-  </ion-page>
+	<ion-page>
+		<ion-header :translucent="true">
+			<ion-toolbar>
+				<ion-title class="ion-text-center">Login</ion-title>
+			</ion-toolbar>
+		</ion-header>
+
+		<ion-content :fullscreen="true">
+			<form @submit.prevent="onSubmit">
+				<ion-item>
+					<ion-label position="floating">User name</ion-label>
+					<ion-input type="text" required v-model="user" />
+				</ion-item>
+				<ion-item>
+					<ion-label position="floating">Password</ion-label>
+					<ion-input type="password" required v-model="password" />
+				</ion-item>
+				<ion-button type="submit" expand="block">login</ion-button>
+			</form>
+		</ion-content>
+	</ion-page>
 </template>
 
-<script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import {
+	IonContent,
+	IonHeader,
+	IonPage,
+	IonTitle,
+	IonToolbar,
+	IonItem,
+	IonLabel,
+	IonInput,
+	IonButton,
+	alertController,
+} from '@ionic/vue';
+import { defineComponent, ref } from 'vue';
 
-export default defineComponent({
-  name: 'HomePage',
-  components: {
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonTitle,
-    IonToolbar
-  }
+defineComponent({
+	name: 'HomePage',
+	components: {
+		IonContent,
+		IonHeader,
+		IonPage,
+		IonTitle,
+		IonToolbar,
+		IonItem,
+		IonLabel,
+		IonInput,
+		IonButton,
+	},
 });
+
+const user = ref();
+const password = ref();
+
+const onSubmit = async () => {
+  
+	if (user.value === 'admin' && password.value === '123') {
+		const alert = await alertController.create({
+			header: 'Login',
+			subHeader: 'datos de login',
+			message: 'Login realizado',
+			buttons: ['OK'],
+		});
+
+		await alert.present();
+	} else alert('datos incorrectos');
+};
 </script>
 
-<style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
-</style>
+<style scoped></style>
